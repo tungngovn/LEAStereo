@@ -231,6 +231,17 @@ def test_md(leftname, rightname, savename, imgname):
     fp.close()
 
 def test_kitti(leftname, rightname, savename):
+
+    ## Print input file name
+    print('kitti2012 path')
+    print("leftname: ")
+    print(leftname)
+    print("rightname: ")
+    print(rightname)
+    print("savename: ")
+    print(savename)
+
+
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
     print('Done input') ## Print for debugging
  
