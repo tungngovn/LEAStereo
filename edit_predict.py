@@ -238,6 +238,7 @@ def test_kitti(leftname, rightname, savename):
 
     model.eval()
     if cuda:
+        print('cuda test kitti2012') ## print for debugging
         input1 = input1.cuda()
         input2 = input2.cuda()
     with torch.no_grad():        
