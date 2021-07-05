@@ -29,7 +29,7 @@ import numpy as np
 import pdb
 from path import Path
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+## os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 ## torch.cuda.set_device(1)
 
 opt = obtain_predict_args()
