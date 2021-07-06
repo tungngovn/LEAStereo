@@ -1,5 +1,5 @@
 CUDA_VISIBLE_DEVICES=0,1,2 python edit_predict.py \
-                --kitti2012=1    --maxdisp=192 \
+                --kitti2012=1  --cuda=True  --maxdisp=192 \
                 --crop_height=384  --crop_width=1248  \
                 --data_path='./dataset/kitti2012/testing/' \
                 --test_list='./dataloaders/lists/kitti2012_test.list' \

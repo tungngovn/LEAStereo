@@ -37,7 +37,9 @@ print(opt)
 
 torch.backends.cudnn.benchmark = True
 
-cuda = opt.cuda
+## cuda = opt.cuda
+cuda = True ## Edit to use cuda
+
 if cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
 
