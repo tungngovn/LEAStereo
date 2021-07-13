@@ -10,6 +10,7 @@ def obtain_predict_args():
     parser.add_argument('--cuda', type=bool, default=False, help='use cuda?')
     parser.add_argument('--sceneflow', type=int, default=0, help='sceneflow dataset? Default=False')
     parser.add_argument('--kitti2012', type=int, default=0, help='kitti 2012? Default=False')
+    parser.add_argument('--apolloscape', type=int, default=0, help='Apollo Scape? Default=False')
     parser.add_argument('--kitti2015', type=int, default=0, help='kitti 2015? Default=False')
     parser.add_argument('--middlebury', type=int, default=0, help='Middlebury? Default=False')
     parser.add_argument('--data_path', type=str, required=True, help="data root")
