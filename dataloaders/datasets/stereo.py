@@ -225,7 +225,7 @@ def load_kitti2012_data(file_path, current_file):
 
 def load_apolloscape_data(file_path, current_file):
     """ load current file from the list"""
-    filename = file_path + 'camera_5/' + current_file[0: len(current_file) - 4] + '.jpg'
+    filename = file_path + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
     left = Image.open(filename)
     filename = file_path+'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
     right = Image.open(filename)
