@@ -223,6 +223,46 @@ def load_kitti2012_data(file_path, current_file):
     
     return temp_data
 
+def load_apolloscape_data(file_path, current_file):
+    """ load current file from the list"""
+    filename = file_path + 'camera_5/' + current_file[0: len(current_file) - 4] + '.jpg'
+    left = Image.open(filename)
+    filename = file_path+'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
+    right = Image.open(filename)
+    filename = file_path+'disparity/' + current_file[0: len(current_file) - 1] #disp_occ
+
+    disp_left = Image.open(filename)
+    temp = np.asarray(disp_left)
+    size = np.shape(left)
+
+    height = size[0]
+    width = size[1]
+    temp_data = np.zeros([8, height, width], 'float32')
+    left = np.asarray(left)
+    right = np.asarray(right)
+    disp_left = np.asarray(disp_left)
+    r = left[:, :, 0]
+    g = left[:, :, 1]
+    b = left[:, :, 2]
+ 
+    temp_data[0, :, :] = (r-np.mean(r[:])) / np.std(r[:])
+    temp_data[1, :, :] = (g-np.mean(g[:])) / np.std(g[:])
+    temp_data[2, :, :] = (b-np.mean(b[:])) / np.std(b[:])
+    r=right[:, :, 0]
+    g=right[:, :, 1]
+    b=right[:, :, 2]    
+
+    temp_data[3, :, :] = (r - np.mean(r[:])) / np.std(r[:])
+    temp_data[4, :, :] = (g - np.mean(g[:])) / np.std(g[:])
+    temp_data[5, :, :] = (b - np.mean(b[:])) / np.std(b[:])
+    temp_data[6: 7, :, :] = width * 2
+    temp_data[6, :, :] = disp_left[:, :]
+    temp = temp_data[6, :, :]
+    temp[temp < 0.1] = width * 2 * 256
+    temp_data[6, :, :] = temp / 256.
+    
+    return temp_data
+
 def load_data_md(file_path, current_file, eth=False):
     """ load current file from the list"""
     imgl = file_path + current_file[0: len(current_file) - 1]
@@ -282,6 +322,8 @@ class DatasetFromList(data.Dataset):
             temp_data = load_data_sceneflow(Path.db_root_dir('sceneflow'), self.file_list[index])  
         elif self.args.dataset == 'middlebury': #load middbury dataset
             temp_data = load_data_md(Path.db_root_dir('middlebury'), self.file_list[index])
+        elif self.args.dataset == 'apolloscape': #load apolloscape dataset
+            temp_data = load_apolloscape_data(Path.db_root_dir('apolloscape'), self.file_list[index])
 
         if self.training:
             input1, input2, target = train_transform(temp_data, self.crop_height, self.crop_width, self.left_right, self.shift)

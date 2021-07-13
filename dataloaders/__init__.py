@@ -53,6 +53,17 @@ def make_data_loader(args, **kwargs):
             train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
             test_loader = DataLoader(test_set, batch_size=args.testBatchSize, shuffle=False, **kwargs)
             return train_loader, test_loader
+            
+        ############################ apolloscape ###########################
+        elif args.dataset == 'apolloscape':              
+            train_list= 'dataloaders/lists/apollo_001.list'
+            test_list = 'dataloaders/lists/apollo_test.list'  
+            train_set = stereo.DatasetFromList(args, train_list, [args.crop_height, args.crop_width], True)
+            test_set  = stereo.DatasetFromList(args, test_list,  [384,1248], False)
+           
+            train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
+            test_loader = DataLoader(test_set, batch_size=args.testBatchSize, shuffle=False, **kwargs)
+            return train_loader, test_loader
 
         ############################ middlebury ###########################
         elif args.dataset == 'middlebury':
