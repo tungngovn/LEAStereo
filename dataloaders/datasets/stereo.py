@@ -224,6 +224,11 @@ def load_kitti2012_data(file_path, current_file):
     return temp_data
 
 def load_apolloscape_data(file_path, current_file):
+
+    ## apollo_set = "stereo_train/" if training =1, = "stereo_test" if training = 0
+    global apollo_set
+    ## 
+
     """ load current file from the list"""
     filename = file_path + apollo_set + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
     left = Image.open(filename)
@@ -315,6 +320,8 @@ class DatasetFromList(data.Dataset):
 
         ## Add config for apolloscape dataset
         global apollo_set
+        print("Training?")
+        print(self.training)
         if self.training:
             apollo_set = 'stereo_train/'
         else:
@@ -338,6 +345,10 @@ class DatasetFromList(data.Dataset):
             ## End debugging
             temp_data = load_apolloscape_data(Path.db_root_dir('apolloscape'), self.file_list[index])
 
+        ## Print training to debug
+        print("Training???")
+        print(self.training)
+        ## End
         if self.training:
             input1, input2, target = train_transform(temp_data, self.crop_height, self.crop_width, self.left_right, self.shift)
             return input1, input2, target
