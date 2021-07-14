@@ -59,9 +59,10 @@ def make_data_loader(args, **kwargs):
             train_list= 'dataloaders/lists/apolloscape_train.list'
             test_list = 'dataloaders/lists/apolloscape_test.list'  
             train_set = stereo.DatasetFromList(args, train_list, [args.crop_height, args.crop_width], True)
+            train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
             test_set  = stereo.DatasetFromList(args, test_list,  [384,1248], False)
            
-            train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
+            # train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
             test_loader = DataLoader(test_set, batch_size=args.testBatchSize, shuffle=False, **kwargs)
             return train_loader, test_loader
 
