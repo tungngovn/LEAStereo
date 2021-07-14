@@ -10,7 +10,7 @@ class Path(object):
         elif dataset == 'middlebury':
             return './dataset/MiddEval3/trainingH/'
         elif dataset == 'apolloscape':
-            return './dataset/apolloscape/stereo_train/'
+            return './dataset/apolloscape/'
         else:
             print('Dataset {} not available.'.format(dataset))
             raise NotImplementedError

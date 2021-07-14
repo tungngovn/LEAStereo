@@ -225,11 +225,11 @@ def load_kitti2012_data(file_path, current_file):
 
 def load_apolloscape_data(file_path, current_file):
     """ load current file from the list"""
-    filename = file_path + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
+    filename = file_path + apollo_set + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
     left = Image.open(filename)
-    filename = file_path+'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
+    filename = file_path + apollo_set + 'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
     right = Image.open(filename)
-    filename = file_path+'disparity/' + current_file[0: len(current_file) - 1] #disp_occ
+    filename = file_path + apollo_set + 'disparity/' + current_file[0: len(current_file) - 1] #disp_occ
 
     disp_left = Image.open(filename)
     temp = np.asarray(disp_left)
@@ -312,6 +312,14 @@ class DatasetFromList(data.Dataset):
         self.crop_width = crop_size[1]
         self.left_right = left_right
         self.shift = shift
+
+        ## Add config for apolloscape dataset
+        global apollo_set
+        if self.training:
+            apollo_set = 'stereo_train/'
+        else:
+            apollo_set = 'stereo_test/'
+        ## End config for apolloscape dataset
 
     def __getitem__(self, index):
         if self.args.dataset == 'kitti12': #load kitti2012 dataset
