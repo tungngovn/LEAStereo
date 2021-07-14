@@ -227,6 +227,8 @@ def load_apolloscape_data(file_path, current_file):
 
     ## apollo_set = "stereo_train/" if training =1, = "stereo_test" if training = 0
     global apollo_set
+    print("In load_apolloscape_data")
+    print(apollo_set)
     ## 
 
     """ load current file from the list"""
