@@ -320,6 +320,11 @@ class DatasetFromList(data.Dataset):
         self.left_right = left_right
         self.shift = shift
 
+
+
+    def __getitem__(self, index):
+
+
         ## Add config for apolloscape dataset
         global apollo_set
         print("Training?")
@@ -330,7 +335,7 @@ class DatasetFromList(data.Dataset):
             apollo_set = 'stereo_test/'
         ## End config for apolloscape dataset
 
-    def __getitem__(self, index):
+
         if self.args.dataset == 'kitti12': #load kitti2012 dataset
             temp_data = load_kitti2012_data(Path.db_root_dir('kitti12'), self.file_list[index])
         elif self.args.dataset == 'kitti15': #load kitti2015 dataset
