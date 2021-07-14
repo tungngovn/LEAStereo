@@ -323,6 +323,11 @@ class DatasetFromList(data.Dataset):
         elif self.args.dataset == 'middlebury': #load middbury dataset
             temp_data = load_data_md(Path.db_root_dir('middlebury'), self.file_list[index])
         elif self.args.dataset == 'apolloscape': #load apolloscape dataset
+            ## Debug path of apolloscape dataset
+            print('Debug path of apolloscape')
+            print(Path.db_root_dir('apolloscape'))
+            print(self.file_list[index])
+            ## End debugging
             temp_data = load_apolloscape_data(Path.db_root_dir('apolloscape'), self.file_list[index])
 
         if self.training:
