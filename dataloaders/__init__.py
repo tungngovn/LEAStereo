@@ -61,7 +61,7 @@ def make_data_loader(args, **kwargs):
             train_set = stereo.DatasetFromList(args, train_list, [args.crop_height, args.crop_width], True)
             train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
 
-            print("between train_loader and test_set") ## Add to debug
+            # print("between train_loader and test_set") ## Add to debug
             test_set  = stereo.DatasetFromList(args, test_list,  [384,1248], False)
            
             # train_loader= DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)

@@ -227,8 +227,8 @@ def load_apolloscape_data(file_path, current_file):
 
     ## apollo_set = "stereo_train/" if training =1, = "stereo_test" if training = 0
     global apollo_set
-    print("In load_apolloscape_data")
-    print(apollo_set)
+    # print("In load_apolloscape_data")
+    # print(apollo_set)
     ## 
 
     """ load current file from the list"""
@@ -327,8 +327,8 @@ class DatasetFromList(data.Dataset):
 
         ## Add config for apolloscape dataset
         global apollo_set
-        print("Training?")
-        print(self.training)
+        # print("Training?")
+        # print(self.training)
         if self.training:
             apollo_set = 'stereo_train/'
         else:
@@ -345,17 +345,20 @@ class DatasetFromList(data.Dataset):
         elif self.args.dataset == 'middlebury': #load middbury dataset
             temp_data = load_data_md(Path.db_root_dir('middlebury'), self.file_list[index])
         elif self.args.dataset == 'apolloscape': #load apolloscape dataset
+            '''
             ## Debug path of apolloscape dataset
             print('Debug path of apolloscape')
             print(Path.db_root_dir('apolloscape'))
             print(self.file_list[index])
             ## End debugging
+            '''
             temp_data = load_apolloscape_data(Path.db_root_dir('apolloscape'), self.file_list[index])
-
+        '''
         ## Print training to debug
         print("Training???")
         print(self.training)
         ## End
+        '''
         if self.training:
             input1, input2, target = train_transform(temp_data, self.crop_height, self.crop_width, self.left_right, self.shift)
             return input1, input2, target
