@@ -359,7 +359,7 @@ if __name__ == "__main__":
         ## Add apolloscape code
         if opt.apolloscape:
             leftname = file_path + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
-            rightname = file_path + 'camera_5/' + current_file[0: len(current_file) - 6] + '6.jpg'
+            rightname = file_path + 'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
             savename = opt.save_path + current_file[0: len(current_file) - 1]
             test_apolloscape(leftname, rightname, savename)
         ## End Apolloscape code
