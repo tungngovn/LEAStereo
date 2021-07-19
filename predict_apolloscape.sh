@@ -11,5 +11,5 @@ CUDA_VISIBLE_DEVICES=0,1,2 python edit_predict.py \
                 --cell_arch_fea='run/sceneflow/best/architecture/feature_genotype.npy' \
                 --net_arch_mat='run/sceneflow/best/architecture/matching_network_path.npy' \
                 --cell_arch_mat='run/sceneflow/best/architecture/matching_genotype.npy' \
-                --resume './run/Apolloscape/best/best_1.16.pth' 
+                --resume './run/Apolloscape/best.pth' 
 
