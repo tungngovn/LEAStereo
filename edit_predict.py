@@ -37,12 +37,12 @@ print(opt)
 
 torch.backends.cudnn.benchmark = True
 
-## cuda = opt.cuda
-cuda = False ## Edit to use cuda
+# cuda = opt.cuda
+cuda = True ## Edit to use cuda
 print(cuda)
 
-## Config to run on cpu
-device = torch.device('cpu')
+## ## Config to run on cpu
+## device = torch.device('cpu')
 
 if cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
@@ -54,8 +54,8 @@ print('Total Params = %.2fMB' % count_parameters_in_MB(model))
 print('Feature Net Params = %.2fMB' % count_parameters_in_MB(model.feature))
 print('Matching Net Params = %.2fMB' % count_parameters_in_MB(model.matching))
    
-## mult_adds = comp_multadds(model, input_size=(3,opt.crop_height, opt.crop_width)) #(3,192, 192))
-## print("compute_average_flops_cost = %.2fMB" % mult_adds)
+mult_adds = comp_multadds(model, input_size=(3,opt.crop_height, opt.crop_width)) #(3,192, 192))
+print("compute_average_flops_cost = %.2fMB" % mult_adds)
 
 if cuda:
     model = torch.nn.DataParallel(model).cuda()
@@ -63,7 +63,7 @@ if cuda:
 if opt.resume:
     if os.path.isfile(opt.resume):
         print("=> loading checkpoint '{}'".format(opt.resume))
-        checkpoint = torch.load(opt.resume, map_location=device) ## Add map_location=device to use CPU
+        checkpoint = torch.load(opt.resume) ## Add map_location=device to use CPU
         model.load_state_dict(checkpoint['state_dict'], strict=False) ## Changed strict from "True" to "False"     
     else:
         print("=> no checkpoint found at '{}'".format(opt.resume))
@@ -337,13 +337,16 @@ def test(leftname, rightname, savename):
     savename_pfm = savename.replace('png','pfm') 
     temp = np.flipud(temp)
 
+## Convert pytorch to cpp
 def test_cpp(leftname, rightname, savename):  
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
 
     input1 = Variable(input1, requires_grad = False)
     input2 = Variable(input2, requires_grad = False)
+    print(">>>>Loaded input <<<<")
 
     model.eval()
+    print("<<< Done eval <<<<")
     if cuda:
         input1 = input1.cuda()
         input2 = input2.cuda()
@@ -389,6 +392,7 @@ if __name__ == "__main__":
         leftname = leftimg_test
         rightname = rightimg_test
         savename = "test_cpp/disparity_test.png"
+        print(">>>Declared file name <<<")
         test_cpp(leftname, rightname, savename)
     ## End convert to Torch Script code
 
