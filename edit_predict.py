@@ -38,7 +38,11 @@ print(opt)
 torch.backends.cudnn.benchmark = True
 
 ## cuda = opt.cuda
-cuda = True ## Edit to use cuda
+cuda = False ## Edit to use cuda
+print(cuda)
+
+## Config to run on cpu
+device = torch.device('cpu')
 
 if cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
@@ -50,8 +54,8 @@ print('Total Params = %.2fMB' % count_parameters_in_MB(model))
 print('Feature Net Params = %.2fMB' % count_parameters_in_MB(model.feature))
 print('Matching Net Params = %.2fMB' % count_parameters_in_MB(model.matching))
    
-mult_adds = comp_multadds(model, input_size=(3,opt.crop_height, opt.crop_width)) #(3,192, 192))
-print("compute_average_flops_cost = %.2fMB" % mult_adds)
+## mult_adds = comp_multadds(model, input_size=(3,opt.crop_height, opt.crop_width)) #(3,192, 192))
+## print("compute_average_flops_cost = %.2fMB" % mult_adds)
 
 if cuda:
     model = torch.nn.DataParallel(model).cuda()
@@ -59,7 +63,7 @@ if cuda:
 if opt.resume:
     if os.path.isfile(opt.resume):
         print("=> loading checkpoint '{}'".format(opt.resume))
-        checkpoint = torch.load(opt.resume)
+        checkpoint = torch.load(opt.resume, map_location=device) ## Add map_location=device to use CPU
         model.load_state_dict(checkpoint['state_dict'], strict=False) ## Changed strict from "True" to "False"     
     else:
         print("=> no checkpoint found at '{}'".format(opt.resume))
@@ -333,6 +337,39 @@ def test(leftname, rightname, savename):
     savename_pfm = savename.replace('png','pfm') 
     temp = np.flipud(temp)
 
+def test_cpp(leftname, rightname, savename):  
+    input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
+
+    input1 = Variable(input1, requires_grad = False)
+    input2 = Variable(input2, requires_grad = False)
+
+    model.eval()
+    if cuda:
+        input1 = input1.cuda()
+        input2 = input2.cuda()
+
+    start_time = time()
+    with torch.no_grad():
+        prediction = model(input1, input2)
+    end_time = time()
+    
+    print("Processing time: {:.4f}".format(end_time - start_time))
+    temp = prediction.cpu()
+    temp = temp.detach().numpy()
+    if height <= opt.crop_height or width <= opt.crop_width:
+        temp = temp[0, opt.crop_height - height: opt.crop_height, opt.crop_width - width: opt.crop_width]
+    else:
+        temp = temp[0, :, :]
+    plot_disparity(savename, temp, 192)
+    savename_pfm = savename.replace('png','pfm') 
+    temp = np.flipud(temp)
+
+    # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
+    traced_script_module = torch.jit.trace(model, (input1, input2))
+
+    # traced_script_module.save("traced_resnet_model.pt")
+    traced_script_module.save("leastereo_apollo.pt")
+
 def plot_disparity(savename, data, max_disp):
     plt.imsave(savename, data, vmin=0, vmax=max_disp, cmap='turbo')
 
@@ -342,6 +379,20 @@ if __name__ == "__main__":
     file_list = opt.test_list
     f = open(file_list, 'r')
     filelist = f.readlines()
+
+    ## Convert model to Torch Script via Tracing
+    leftimg_test = "test_cpp/171206_034625454_Camera_5.jpg"
+    rightimg_test = "test_cpp/171206_034625454_Camera_6.jpg"
+    disparityimg_test = "test_cpp/171206_034625454_Camera_5.png"
+
+    if opt.apolloscape:
+        leftname = leftimg_test
+        rightname = rightimg_test
+        savename = "test_cpp/disparity_test.png"
+        test_cpp(leftname, rightname, savename)
+    ## End convert to Torch Script code
+
+    '''
     for index in range(len(filelist)):
         current_file = filelist[index]
         if opt.kitti2015:
@@ -385,4 +436,6 @@ if __name__ == "__main__":
             savename = opt.save_path + current_file[0: len(current_file) - 9] + ".png"
             img_name = img_path + current_file[0: len(current_file) - 9] + ".png"
             test_md(leftname, rightname, savename, img_name)
+    '''
+
 
