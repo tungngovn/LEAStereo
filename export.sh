@@ -1,5 +1,5 @@
-CUDA_VISIBLE_DEVICES=0,1,2 python edit_predict.py \
-                --apolloscape=1  --cuda=True  --maxdisp=192 \
+CUDA_VISIBLE_DEVICES=0,1,2 python export.py \
+                --apolloscape=1 --cuda=False --maxdisp=192 \
                 --crop_height=384  --crop_width=1248  \
                 --data_path='./dataset/apolloscape/stereo_test/' \
                 --test_list='./dataloaders/lists/apolloscape_test.list' \
@@ -12,3 +12,4 @@ CUDA_VISIBLE_DEVICES=0,1,2 python edit_predict.py \
                 --net_arch_mat='run/sceneflow/best/architecture/matching_network_path.npy' \
                 --cell_arch_mat='run/sceneflow/best/architecture/matching_genotype.npy' \
                 --resume './run/Apolloscape/best.pth' 
+
