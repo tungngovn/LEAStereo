@@ -316,6 +316,7 @@ def test(leftname, rightname, savename):
 
 ## Convert pytorch model to torchscript
 def test_cpp(leftname, rightname, savename):  
+    start_time = time()
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
 
     input1 = Variable(input1, requires_grad = False)
@@ -330,7 +331,7 @@ def test_cpp(leftname, rightname, savename):
         input1 = input1.cuda()
         input2 = input2.cuda()
 
-    start_time = time()
+    # start_time = time()
     with torch.no_grad():
         prediction = model(input1, input2)
     end_time = time()
@@ -347,7 +348,7 @@ def test_cpp(leftname, rightname, savename):
     temp = np.flipud(temp)
 
     # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
-    input_model = (input1, input2)
+    input_model = torch.stack(input1, input2)
     traced_script_module = torch.jit.trace(model, input_model)
 
     # traced_script_module.save("traced_resnet_model.pt")
