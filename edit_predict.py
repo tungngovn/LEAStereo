@@ -234,7 +234,7 @@ def test_md(leftname, rightname, savename, imgname):
 
 def test_kitti(leftname, rightname, savename):
 
-
+    start_time = time()
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
  
     input1 = Variable(input1, requires_grad = False)
@@ -248,7 +248,7 @@ def test_kitti(leftname, rightname, savename):
         input1 = input1.cuda()
         input2 = input2.cuda()
 
-    start_time = time()
+    # start_time = time()
     with torch.no_grad():        
         prediction = model(input1, input2)
     end_time = time()
@@ -265,7 +265,7 @@ def test_kitti(leftname, rightname, savename):
 
 ## Apolloscape prediction function
 def test_apolloscape(leftname, rightname, savename):
-
+    start_time = time()
 
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
  
@@ -277,7 +277,7 @@ def test_apolloscape(leftname, rightname, savename):
     if cuda:
         input1 = input1.cuda()
         input2 = input2.cuda()
-    start_time = time()
+    # start_time = time()
     with torch.no_grad():        
         prediction = model(input1, input2)
     end_time = time()
