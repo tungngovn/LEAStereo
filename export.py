@@ -322,7 +322,7 @@ def test_cpp(leftname, rightname, savename):
     input2 = Variable(input2, requires_grad = False)
     print(">>>>Loaded input <<<<")
     print(input1.shape)
-    print(input2.shape)_
+    print(input2.shape)
 
     model.eval()
     print("<<< Done eval <<<<")
