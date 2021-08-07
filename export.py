@@ -348,7 +348,7 @@ def test_cpp(leftname, rightname, savename):
 
     # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
     input_model = (input1, input2)
-    traced_script_module = torch.jit.trace(model, (input1, input2))
+    traced_script_module = torch.jit.trace(model, input_model)
 
     # traced_script_module.save("traced_resnet_model.pt")
     traced_script_module.save("leastereo_apollo.pt")
@@ -379,7 +379,7 @@ if __name__ == "__main__":
         print('Right file: ' + rightname)
         savename = "test_cpp/disparity_test.png"
         print(">>>Declared file name <<<")
-        test_kitti(leftname, rightname, savename)
+        test_cpp(leftname, rightname, savename)
     ## End convert to Torch Script code
 
     '''
