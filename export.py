@@ -363,6 +363,7 @@ if __name__ == "__main__":
     ## Convert model to Torch Script via Tracing
 
     current_file = filelist[1]
+    print(current_file)
     leftimg_test = file_path + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
     rightimg_test = file_path + 'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
     disparityimg_test = opt.save_path + 'export_test/' + current_file[0: len(current_file) - 1]

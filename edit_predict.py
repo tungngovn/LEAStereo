@@ -234,42 +234,26 @@ def test_md(leftname, rightname, savename, imgname):
 
 def test_kitti(leftname, rightname, savename):
 
-    '''
-    ## Print input file name
-    print('kitti2012 path')
-    print("leftname: ")
-    print(leftname)
-    print("rightname: ")
-    print(rightname)
-    print("savename: ")
-    print(savename)
-    '''
-
 
     input1, input2, height, width = test_transform(load_data(leftname, rightname), opt.crop_height, opt.crop_width)
-    ## print('Done input') ## Print for debugging
  
     input1 = Variable(input1, requires_grad = False)
     input2 = Variable(input2, requires_grad = False)
-    ## print('Done Variable input') ## Print for debugging
 
 
     model.eval()
-    
-    '''
-    print('Done model.eval') ## Print for debugging
-    print('Cuda: ')
-    print(cuda)
-    '''
+
 
     if cuda:
-        ## print('cuda test kitti2012') ## print for debugging
         input1 = input1.cuda()
         input2 = input2.cuda()
+
+    start_time = time()
     with torch.no_grad():        
         prediction = model(input1, input2)
-        ## print('Done prediction') ## Print for debugging
+    end_time = time()
         
+    print("Processing time: {:.4f}".format(end_time - start_time))
     temp = prediction.cpu()
     temp = temp.detach().numpy()
     if height <= opt.crop_height and width <= opt.crop_width:
@@ -293,9 +277,12 @@ def test_apolloscape(leftname, rightname, savename):
     if cuda:
         input1 = input1.cuda()
         input2 = input2.cuda()
+    start_time = time()
     with torch.no_grad():        
         prediction = model(input1, input2)
+    end_time = time()
         
+    print("Processing time: {:.4f}".format(end_time - start_time))
     temp = prediction.cpu()
     temp = temp.detach().numpy()
     if height <= opt.crop_height and width <= opt.crop_width:
