@@ -321,6 +321,8 @@ def test_cpp(leftname, rightname, savename):
     input1 = Variable(input1, requires_grad = False)
     input2 = Variable(input2, requires_grad = False)
     print(">>>>Loaded input <<<<")
+    print(input1.shape)
+    print(input2.shape)_
 
     model.eval()
     print("<<< Done eval <<<<")
@@ -364,13 +366,16 @@ if __name__ == "__main__":
 
     current_file = filelist[1]
     print(current_file)
+    print(file_path)
     leftimg_test = file_path + 'camera_5/' + current_file[0: len(current_file) - 5] + '.jpg'
     rightimg_test = file_path + 'camera_6/' + current_file[0: len(current_file) - 6] + '6.jpg'
     disparityimg_test = opt.save_path + 'export_test/' + current_file[0: len(current_file) - 1]
 
     if opt.apolloscape:
         leftname = leftimg_test
+        print('Left file: ' + leftname)
         rightname = rightimg_test
+        print('Right file: ' + rightname)
         savename = "test_cpp/disparity_test.png"
         print(">>>Declared file name <<<")
         test_cpp(leftname, rightname, savename)
