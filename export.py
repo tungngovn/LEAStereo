@@ -348,7 +348,7 @@ def test_cpp(leftname, rightname, savename):
     temp = np.flipud(temp)
 
     # Use torch.jit.trace to generate a torch.jit.ScriptModule via tracing.
-    input_model = torch.stack(input1, input2)
+    input_model = torch.stack((input1, input2))
     traced_script_module = torch.jit.trace(model, input_model)
 
     # traced_script_module.save("traced_resnet_model.pt")
