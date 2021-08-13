@@ -34,8 +34,8 @@ print(opt)
 
 torch.backends.cudnn.benchmark = True
 
-# cuda = opt.cuda
-cuda = True ## Edit to use cuda
+cuda = opt.cuda
+# cuda = True ## Edit to use cuda
 # cuda = False ## Edit to use CPU
 print(cuda)
 
