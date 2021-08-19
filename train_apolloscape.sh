@@ -5,6 +5,8 @@ CUDA_VISIBLE_DEVICES=0,1,2 python train.py \
                 --crop_width=576 \
                 --maxdisp=192 \
                 --threads=8 \
+                --lr=0.001 \
+                --milestones=[15,30,45,60,75,90]
                 --dataset='apolloscape' \
                 --save_path='./run/Apolloscape/' \
                 --resume='./run/sceneflow/best/checkpoint/best.pth' \
@@ -15,6 +17,6 @@ CUDA_VISIBLE_DEVICES=0,1,2 python train.py \
                 --cell_arch_fea='run/sceneflow/best/architecture/feature_genotype.npy' \
                 --net_arch_mat='run/sceneflow/best/architecture/matching_network_path.npy' \
                 --cell_arch_mat='run/sceneflow/best/architecture/matching_genotype.npy' \
-                --nEpochs=800 2>&1 |tee ./run/Apolloscape/log.txt
+                --nEpochs=150 2>&1 |tee ./run/Apolloscape/log_2nd.txt
 
                #--resume='./run/Kitti12/best/best_1.16.pth'
