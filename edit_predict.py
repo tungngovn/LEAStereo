@@ -86,7 +86,7 @@ def RGBToPyCmap(rgbdata):
     return mpl_data
 
 mpl_data = RGBToPyCmap(turbo_colormap_data)
-plt.register_cmap(name='turbo', data=mpl_data, lut=turbo_colormap_data.shape[0])
+# plt.register_cmap(name='turbo', data=mpl_data, lut=turbo_colormap_data.shape[0])
 
 def readPFM(file): 
     with open(file, "rb") as f:
