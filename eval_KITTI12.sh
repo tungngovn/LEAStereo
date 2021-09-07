@@ -1,7 +1,8 @@
 CUDA_VISIBLE_DEVICES=0,1,2 python eval.py \
-                --kitti2012=1  --maxdisp=192 \
+                --maxdisp=192 \
                 --crop_height=288  --crop_width=576  \
                 --testBatchSize=1 \
+                --dataset='kitti12' \
                 --data_path='./dataset/KITTI2012/testing/' \
                 --test_list='./dataloaders/lists/kitti2012_test.list' \
                 --save_path='./predict/kitti2012/images/' \
