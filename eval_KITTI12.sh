@@ -3,8 +3,6 @@ CUDA_VISIBLE_DEVICES=0,1,2 python eval.py \
                 --crop_height=288  --crop_width=576  \
                 --testBatchSize=1 \
                 --dataset='kitti12' \
-                --data_path='./dataset/KITTI2012/testing/' \
-                --test_list='./dataloaders/lists/kitti2012_test.list' \
                 --save_path='./predict/kitti2012/images/' \
                 --fea_num_layer 6 --mat_num_layers 12\
                 --fea_filter_multiplier 8 --fea_block_multiplier 4 --fea_step 3  \
