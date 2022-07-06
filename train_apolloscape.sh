@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0,1,2 python train.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3 python train.py \
                 --batch_size=4 \
                 --testBatchSize=1 \
                 --crop_height=288 \
@@ -16,6 +16,6 @@ CUDA_VISIBLE_DEVICES=0,1,2 python train.py \
                 --cell_arch_fea='run/sceneflow/best/architecture/feature_genotype.npy' \
                 --net_arch_mat='run/sceneflow/best/architecture/matching_network_path.npy' \
                 --cell_arch_mat='run/sceneflow/best/architecture/matching_genotype.npy' \
-                --nEpochs=100 2>&1 |tee ./run/Apolloscape/log_3rd.txt
+                --nEpochs=100 2>&1 |tee ./run/Apolloscape/log.txt
 
                #--resume='./run/Kitti12/best/best_1.16.pth'
